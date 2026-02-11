@@ -9,6 +9,8 @@ A parametric design tool for creating and visualizing cycloidal gearboxes with r
 ![License](https://img.shields.io/badge/license-MIT-orange)
 
 ## Overview
+<img width="1901" height="1002" alt="image" src="https://github.com/user-attachments/assets/72b4ea14-26c4-4f11-a2d8-9d0df0711174" />
+<img width="1897" height="1021" alt="Screenshot 2026-02-11 150044" src="https://github.com/user-attachments/assets/fd635cd5-e31d-4bbf-a064-d15c2ca08def" />
 
 This application allows you to design custom cycloidal gearboxes through an intuitive interface with interactive parameter sliders and real-time 3D visualization. Export your designs directly to DXF or SVG formats for 3d printing or whatever
 
