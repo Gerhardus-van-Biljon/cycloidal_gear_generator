@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.dxf
+*.svg
+config_gearbox.json

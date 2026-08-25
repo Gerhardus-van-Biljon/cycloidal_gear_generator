@@ -1,5 +1,5 @@
 '''
-Docstring for cycloidal_Gear_generator_V1-2
+Docstring for cycloidal_Gear_generator
 Author: Gerhardus van Biljon
 This is a cycloidal gearbox generator that allows you to design and visualize cycloidal gearboxes with customizable parameters. The application features an interactive OpenGL viewer where you can see the geometry of the cycloidal disk, pins, and camshaft in real-time as you adjust the parameters using sliders.
 added in 1.2:
@@ -40,7 +40,7 @@ from PyQt6.QtCore import Qt
 import pyqtgraph.opengl as gl
 
 
-# =================== EXPORT FUNCTIONS ===================
+# EXPORT FUNCTIONS 
 
 def export_to_dxf(filename, params, phi=0):
     """
@@ -93,17 +93,17 @@ def export_to_dxf(filename, params, phi=0):
     disk_center_x = e * np.cos(phi)
     disk_center_y = e * np.sin(phi)
 
-    # ===================== 1. CENTER REFERENCE =====================
+    #   CENTER REFERENCE 
     msp.add_point((0, 0), dxfattribs={"layer": "CENTER_AXIS"})
 
-    # ===================== 2. EXTERNAL PIN CENTERS =====================
+    # EXTERNAL PIN CENTERS 
     for i in range(Ne):
         a = 2 * np.pi * i / Ne
         cx = R * np.cos(a)
         cy = R * np.sin(a)
         msp.add_point((cx, cy), dxfattribs={"layer": "PIN_CENTERS"})
 
-    # ===================== 3. MERGED OUTER RING (OPTIMIZED) =====================
+    #  MERGED OUTER RING (OPTIMIZED) 
     if show_ring:
         poly_points = []
         rp = pin_d / 2
@@ -154,14 +154,14 @@ def export_to_dxf(filename, params, phi=0):
         outer_radius = R + ring_w
         msp.add_circle((0, 0), outer_radius, dxfattribs={"layer": "OUTER_RING"})
 
-    # ===================== 4. OUTPUT PINS =====================
+    #OUTPUT PINS 
     for i in range(No):
         a = 2 * np.pi * i / No
         cx = Rd * np.cos(a)
         cy = Rd * np.sin(a)
         msp.add_circle((cx, cy), out_pin_d / 2, dxfattribs={"layer": "OUTPUT_PINS"})
 
-    # ===================== 5. OUTPUT HOLES (In Disk) =====================
+    #  OUTPUT HOLES (In Disk) 
     hole_r = out_pin_d / 2 + e + tol
     for i in range(No):
         a = 2 * np.pi * i / No
@@ -169,7 +169,7 @@ def export_to_dxf(filename, params, phi=0):
         cy = Rd * np.sin(a) + disk_center_y
         msp.add_circle((cx, cy), hole_r, dxfattribs={"layer": "OUTPUT_HOLES"})
 
-    # ===================== 6. CAMSHAFT HOLE & CAM =====================
+    #  CAMSHAFT HOLE & CAM 
     cam_hole_r = cam_d / 2 + tol
     msp.add_circle((0, 0), cam_hole_r, dxfattribs={"layer": "CAMSHAFT_HOLE"})
 
@@ -177,9 +177,9 @@ def export_to_dxf(filename, params, phi=0):
     if cam_lobe_r > 0:
         msp.add_circle((disk_center_x, disk_center_y), cam_lobe_r, dxfattribs={"layer": "ECCENTRIC_CAM"})
 
-    # ===================== 7. CYCLOID DISK =====================
-    # Cycloid disk also benefits from optimized resolution
-    points_per_lobe = 60 # Reduced from 80 (still very smooth)
+    #  CYCLOID DISK 
+    # Cycloid disk with optimized resolution
+    points_per_lobe = 60 # Reduced from 80 (nogstteds smooth)
     num_lobes = Ne - 1
     total_points = points_per_lobe * num_lobes
     t = np.linspace(0, 2*np.pi, total_points, endpoint=True)
@@ -300,7 +300,7 @@ def export_to_svg(filename, params, phi=0):
     
     return True
 
-# =================== MATH FUNCTIONS ===================
+#  MATH FUNCTIONS
 
 def pin_ring(num_pins, ring_diameter, pin_diameter):
     t = np.linspace(0, 2*np.pi, 200)
@@ -458,7 +458,7 @@ def outer_ring(num_pins, ring_diameter, pin_diameter, ring_width, tolerance=0):
     return inner_profile, outer_profile
 
 
-# =================== OPENGL VIEWER ===================
+# OPENGL VIEWER 
 
 class GearboxViewer(gl.GLViewWidget):
     def __init__(self):
@@ -865,7 +865,7 @@ class SliderPanel(QtWidgets.QWidget):
             self.update_viewer()
 
 
-# =================== MAIN WINDOW ===================
+# MAIN WINDOW 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -892,7 +892,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer.start(16)  # ~60 FPS
 
 
-# =================== RUN ===================
+#RUN 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
