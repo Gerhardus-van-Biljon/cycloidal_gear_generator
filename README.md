@@ -144,9 +144,9 @@ Reduction Ratio = num_external_pins / (num_external_pins - 1)
 ```
 
 Examples:
-- 24 external pins = 24:1 reduction
-- 36 external pins = 36:1 reduction
-- 48 external pins = 48:1 reduction
+- 25 external pins = 24:1 reduction
+- 37 external pins = 36:1 reduction
+- 49 external pins = 48:1 reduction
 
 ### Optimal Parameter Relationships
 
