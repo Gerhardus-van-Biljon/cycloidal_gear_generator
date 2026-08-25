@@ -56,6 +56,7 @@ fixed in V10:
 - Corrected tolerance clearance representation for the offset camshaft hole in the cycloid disk.
 fixed in V11:
 - Standardized CAD export orientation: DXF and SVG exports now always use a fixed crank angle of -90 degrees (-pi/2) so the primary disk always points down (270 deg) and the balance disk points up (90 deg), ensuring consistent alignments regardless of animation state.
+- Updated default save filenames to use the total outer diameter of the gearbox assembly (ring_diameter + 2 * outer_ring_width when outer ring is shown, otherwise ring_diameter) instead of the ring radius.
 '''
 
 
@@ -921,9 +922,12 @@ class SliderPanel(QtWidgets.QWidget):
     def export_dxf(self):
         """Export current geometry to DXF file"""
         pins_num = self.params['num_external_pins']
-        ring_radius = self.params['ring_diameter'] / 2
-        radius_str = f"{int(ring_radius)}" if ring_radius.is_integer() else f"{ring_radius:.2f}".rstrip('0').rstrip('.')
-        default_filename = f"cycloidal_gearbox_{pins_num}pins_{radius_str}mm.dxf"
+        if self.params.get('show_outer_ring'):
+            total_dia = self.params['ring_diameter'] + 2 * self.params['outer_ring_width']
+        else:
+            total_dia = self.params['ring_diameter']
+        dia_str = f"{int(total_dia)}" if total_dia.is_integer() else f"{total_dia:.2f}".rstrip('0').rstrip('.')
+        default_filename = f"cycloidal_gearbox_{pins_num}pins_{dia_str}mm.dxf"
         
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(
             self,
@@ -994,9 +998,12 @@ class SliderPanel(QtWidgets.QWidget):
     def export_svg(self):
         """Export current geometry to SVG file"""
         pins_num = self.params['num_external_pins']
-        ring_radius = self.params['ring_diameter'] / 2
-        radius_str = f"{int(ring_radius)}" if ring_radius.is_integer() else f"{ring_radius:.2f}".rstrip('0').rstrip('.')
-        default_filename = f"cycloidal_gearbox_{pins_num}pins_{radius_str}mm.svg"
+        if self.params.get('show_outer_ring'):
+            total_dia = self.params['ring_diameter'] + 2 * self.params['outer_ring_width']
+        else:
+            total_dia = self.params['ring_diameter']
+        dia_str = f"{int(total_dia)}" if total_dia.is_integer() else f"{total_dia:.2f}".rstrip('0').rstrip('.')
+        default_filename = f"cycloidal_gearbox_{pins_num}pins_{dia_str}mm.svg"
         
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(
             self,
