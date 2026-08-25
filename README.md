@@ -9,8 +9,10 @@ A parametric design tool for creating and visualizing cycloidal gearboxes with r
 ![License](https://img.shields.io/badge/license-MIT-orange)
 
 ## Overview
-<img width="1901" height="1002" alt="image" src="https://github.com/user-attachments/assets/72b4ea14-26c4-4f11-a2d8-9d0df0711174" />
-<img width="1897" height="1021" alt="Screenshot 2026-02-11 150044" src="https://github.com/user-attachments/assets/fd635cd5-e31d-4bbf-a064-d15c2ca08def" />
+
+<img width="1913" height="1027" alt="Screenshot 2026-08-25 123531" src="https://github.com/user-attachments/assets/01a04889-5096-4585-a76c-90ab1a3e3eee" />
+<img width="1916" height="1026" alt="Screenshot 2026-08-25 123542" src="https://github.com/user-attachments/assets/25fdd452-6452-49a1-a8dd-80f593f2aa4b" />
+<img width="1913" height="1025" alt="Screenshot 2026-08-25 123555" src="https://github.com/user-attachments/assets/c161e7c5-c313-495b-875e-9c604e412801" />
 
 This application allows you to design custom cycloidal gearboxes through an intuitive interface with interactive parameter sliders and real-time 3D visualization. Export your designs directly to DXF or SVG formats for 3d printing or whatever
 
@@ -133,6 +135,12 @@ Output Disk Diameter = (2/3) × Ring Diameter
 - `OUTER_RING` (Gray) - Housing with pin pockets
 - `PIN_CENTERS` (White) - External pin drill points
 - `CENTER_AXIS` (Cyan) - Center reference
+
+##how it looks in CAD
+
+<img width="1085" height="658" alt="Screenshot 2026-08-25 123711" src="https://github.com/user-attachments/assets/5dd1d3fe-ea06-4e57-893a-bf709217b3be" />
+<img width="1042" height="671" alt="Screenshot 2026-08-25 123736" src="https://github.com/user-attachments/assets/b5d52f04-cfbe-44fe-9e10-e2f03c57d960" />
+<img width="288" height="683" alt="Screenshot 2026-08-25 123903" src="https://github.com/user-attachments/assets/5fb63264-cfce-4db9-b7ee-a2f9bf7569fa" />
 
 ## Design Tips
 
