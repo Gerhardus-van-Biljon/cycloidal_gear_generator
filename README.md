@@ -4,7 +4,7 @@ this was made when i tried to make a cycloidal profile in onshape but did not ge
 A parametric design tool for creating and visualizing cycloidal gearboxes with real-time 3D preview and CAD export capabilities.
 
 
-![Version](https://img.shields.io/badge/version-1.5-blue)
+![Version](https://img.shields.io/badge/version-11.0-blue)
 ![Python](https://img.shields.io/badge/python-3.8+-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
 
@@ -35,9 +35,9 @@ A cycloidal gearbox is a high-precision, high-torque gear reduction mechanism th
 - **Complete Housing Design**: optional outer ring with pin pockets (can be improved)
 - **Animation Control**: Pause/resume animation to examine specific positions
 
-## the view
+## The View
 
-The application displays: still want to add option to change colors maybe
+The application displays the following color-coded components:
 - **Gray**: External pins (fixed)
 - **Red**: Cycloidal disk (primary moving component)
 - **Green**: Output pins (rotate with reduced speed)
@@ -45,6 +45,9 @@ The application displays: still want to add option to change colors maybe
 - **Blue**: Camshaft hole (center mounting)
 - **Yellow/Orange**: Eccentric camshaft (drives the disk)
 - **Gray outline**: Optional outer ring housing
+- **Orange (Dotted)**: Balance disk (180° offset second disk, if enabled)
+- **Purple (Dotted)**: Balance disk output holes (if enabled)
+- **Pink (Dotted)**: Balance disk eccentric camshaft (if enabled)
 
 ## Installation
 
@@ -70,7 +73,7 @@ pip install ezdxf --break-system-packages
 ### Run the Application
 
 ```bash
-python cycloidal_Gear_generator_V1-2.py
+python V11.py
 ```
 
 ## Usage Guide
@@ -88,7 +91,7 @@ python cycloidal_Gear_generator_V1-2.py
 6. **Output Pins**: Number of pins that transfer motion (3-45)
 7. **Output Pin Diameter**: Size of output pins (0.5-25mm)
 8. **Output Disk Diameter**: Diameter of the output pin circle (1-150mm)
-9. **Camshaft Diameter**: Central shaft diameter (1-50mm)
+9. **Input Shaft Diameter**: Central input shaft diameter (1-50mm)
 
 ### Manufacturing Settings
 
@@ -136,7 +139,7 @@ Output Disk Diameter = (2/3) × Ring Diameter
 - `PIN_CENTERS` (White) - External pin drill points
 - `CENTER_AXIS` (Cyan) - Center reference
 
-##how it looks in CAD
+## How it looks in CAD
 
 <img width="1085" height="658" alt="Screenshot 2026-08-25 123711" src="https://github.com/user-attachments/assets/5dd1d3fe-ea06-4e57-893a-bf709217b3be" />
 <img width="1042" height="671" alt="Screenshot 2026-08-25 123736" src="https://github.com/user-attachments/assets/b5d52f04-cfbe-44fe-9e10-e2f03c57d960" />
@@ -146,15 +149,15 @@ Output Disk Diameter = (2/3) × Ring Diameter
 
 ### Choosing Reduction Ratio
 
-The gear reduction ratio is calculated as:
+The gear reduction ratio is determined by the number of external pins. Since the number of lobes on the cycloid disk is always `num_external_pins - 1`, the gearbox reduction ratio is:
 ```
-Reduction Ratio = num_external_pins / (num_external_pins - 1)
+Reduction Ratio = (num_external_pins - 1) : 1
 ```
 
 Examples:
-- 25 external pins = 24:1 reduction
-- 37 external pins = 36:1 reduction
-- 49 external pins = 48:1 reduction
+- 25 external pins (24 lobes) = 24:1 reduction
+- 37 external pins (36 lobes) = 36:1 reduction
+- 49 external pins (48 lobes) = 48:1 reduction
 
 ### Optimal Parameter Relationships
 
@@ -169,18 +172,25 @@ Examples:
 
 ### Cycloid Mathematics
 
-The cycloidal disk profile is generated using parametric equations:
+The cycloidal disk profile is generated using the following parametric equations:
 
 ```python
-# Rolling circle radius
-rolling_radius = (num_lobes / (num_lobes + 1)) × ring_radius
+# Rolling circle and stationary circle radii
+rolling_circle_radius = (num_lobes / (num_lobes + 1)) * ring_radius
+stationary_circle_radius = ring_radius / (num_lobes + 1)
 
-# Stationary circle radius
-stationary_radius = ring_radius / (num_lobes + 1)
+# Base hypocycloid curve coordinates
+xa = (rolling_circle_radius + stationary_circle_radius) * cos(t) - e * cos((rolling_circle_radius + stationary_circle_radius) / stationary_circle_radius * t)
+ya = (rolling_circle_radius + stationary_circle_radius) * sin(t) - e * sin((rolling_circle_radius + stationary_circle_radius) / stationary_circle_radius * t)
 
-# Cycloid curve with pin offset
-x = (R_r + R_s) × cos(t) - e × cos((R_r + R_s)/R_s × t) + offset
-y = (R_r + R_s) × sin(t) - e × sin((R_r + R_s)/R_s × t) + offset
+# First derivatives for normal offset calculation
+dxa = (rolling_circle_radius + stationary_circle_radius) * (-sin(t) + (e / stationary_circle_radius) * sin((rolling_circle_radius + stationary_circle_radius) / stationary_circle_radius * t))
+dya = (rolling_circle_radius + stationary_circle_radius) * (cos(t) - (e / stationary_circle_radius) * cos((rolling_circle_radius + stationary_circle_radius) / stationary_circle_radius * t))
+
+# Offset by the pin radius (plus tolerance clearance) to generate the outer disk surface
+effective_pin_radius = pin_radius + tolerance
+x_disk = xa + effective_pin_radius / sqrt(dxa**2 + dya**2) * (-dya)
+y_disk = ya + effective_pin_radius / sqrt(dxa**2 + dya**2) * dxa
 ```
 
 Where:
@@ -191,31 +201,49 @@ Where:
 
 ## Version History
 
-### Version 1.5 (Current)
-- Performance optimizations for CAD export
-- Merged silhouette of pins and housing
-- Cleaner geometry for CAD extrusion
+### Version 11.0 (Current)
+- **Standardized CAD Export Orientation**: DXF and SVG exports now always use a fixed crank angle of -90 degrees (-pi/2) so the primary disk always points down (270 deg) and the balance disk points up (90 deg), ensuring consistent alignments regardless of animation state.
+
+### Version 10.0
+- **Restructured Camshaft/Eccentric Lobe Geometry**: The eccentric lobe (the ring inside the camshaft hole of the disk) is now modeled as the larger diameter and the central input shaft as the smaller one.
+- **Improved UI Sliders**: The slider panel now directly controls the "Input Shaft Diameter" instead of the eccentric lobe outer diameter.
+- **Accurate Tolerances**: Corrected tolerance clearance representation for the offset camshaft hole in the cycloid disk.
+
+### Version 9.0
+- **Standardized Output File Naming**: Updated default DXF/SVG filenames to `"cycloidal_gearbox_{pins}pins_{radius}mm"` (e.g., `cycloidal_gearbox_24pins_40mm.dxf`).
+
+### Version 1.7
+- **Separate DXF Exports**: The balance disk is now exported to a separate file (e.g. `*_balance_disk.dxf`) to prevent overlapping layers from colliding inside CAD software.
+
+### Version 1.6
+- **Optional Balance Disk**: Added a second cycloid disk mounted 180 degrees out of phase (`phi + pi`) on the eccentric shaft to cancel rotating vibrations.
+- **Hole Phase Correction**: Introduced an extra local rotation phase of `pi / num_lobes` so the balance disk output holes align perfectly with the shared output pin set.
+
+### Version 1.5
+- Performance optimizations for CAD export.
+- Merged silhouette of pins and housing.
+- Cleaner geometry for CAD extrusion.
 
 ### Version 1.4
-- Added DXF export support
-- Added SVG export support
-- Layer-organized geometry
-- Animation position export
+- Added DXF export support.
+- Added SVG export support.
+- Layer-organized geometry.
+- Animation position export.
 
 ### Version 1.3
-- Continuous cycloid disk loop
-- Added tolerance slider
-- Optional outer ring housing
-- Adjustable ring width
+- Continuous cycloid disk loop.
+- Added tolerance slider.
+- Optional outer ring housing.
+- Adjustable ring width.
 
 ### Version 1.2
-- Normalize to external pins function
-- Improved variable naming
-- Better slider organization
+- Normalize to external pins function.
+- Improved variable naming.
+- Better slider organization.
 
 ### Version 1.1
-- Initial release with 3D viewer
-- Basic parameter controls
+- Initial release with 3D viewer.
+- Basic parameter controls.
 
 ## Troubleshooting
 
