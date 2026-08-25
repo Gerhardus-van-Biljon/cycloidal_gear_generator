@@ -82,7 +82,7 @@ python V11.py
 
 1. **Animation Speed**: Controls rotation speed of the animation (1-2000)
 2. **Eccentricity**: Offset distance that creates the cycloidal motion (0.5-10mm)
-3. **External Pins**: Number of fixed pins in the ring (3-100, must be even)
+3. **External Pins**: Number of fixed pins in the ring (3-100)
 4. **External Pin Diameter**: Size of the fixed pins (2-25mm)
 5. **Ring Diameter**: Overall diameter of the pin circle (20-250mm)
 
