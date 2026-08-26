@@ -16,6 +16,7 @@ A parametric design tool for creating and visualizing cycloidal gearboxes with r
 
 This application allows you to design custom cycloidal gearboxes through an intuitive interface with interactive parameter sliders and real-time 3D visualization. Export your designs directly to DXF or SVG formats for 3d printing or whatever
 
+[example full design 20-1 ratio connected to a nema 17 stepper in onshape:](https://cad.onshape.com/documents/e6067050a8cc672fdf2bf5c1/w/24bbea19256e5ed42b9632d2/e/e50b16ec9ee2356670b31e9d)
 ### What is a Cycloidal Gearbox?
 
 A cycloidal gearbox is a high-precision, high-torque gear reduction mechanism that uses a cycloidal disk rolling inside a ring of pins. These gearboxes offer:
@@ -296,6 +297,8 @@ This project is open source and available under the MIT License.
 
 ## Acknowledgments
 - [@tamato_1107 on Youtube for the idea of modeling it in python](https://youtube.com/shorts/73DANPATrQU?si=pQQuMwgBrV7yK-sT)
+- [Dajan form how to Mechatronics, for inspiration for size of my first CAD design](https://howtomechatronics.com/projects/cnc-machined-vs-3d-printed-cycloidal-drive-designing-testing/#cycloidal-drive-191-ratio-stl-files)
+- [RoTechnic's video also inspiration and understanding of how to model](https://youtu.be/r2TWC7vTdvs?si=ZUQ2BDLxWgYFLBEo)
 - Based on cycloidal gear theory and hypocycloid mathematics
 - Uses PyQt6 for GUI framework
 - OpenGL rendering via PyQtGraph
