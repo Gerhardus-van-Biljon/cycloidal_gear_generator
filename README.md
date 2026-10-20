@@ -16,7 +16,7 @@ A parametric design tool for creating and visualizing cycloidal gearboxes with r
 
 This application allows you to design custom cycloidal gearboxes through an intuitive interface with interactive parameter sliders and real-time 3D visualization. Export your designs directly to DXF or SVG formats for 3d printing or whatever
 
-[example full design 20-1 ratio connected to a nema 17 stepper in onshape:](https://cad.onshape.com/documents/e6067050a8cc672fdf2bf5c1/w/24bbea19256e5ed42b9632d2/e/e50b16ec9ee2356670b31e9d)
+[example full design 20-1 ratio connected to a nema 17 stepper in onshape:]([https://cad.onshape.com/documents/e6067050a8cc672fdf2bf5c1/w/24bbea19256e5ed42b9632d2/e/e50b16ec9ee2356670b31e9d](https://cad.onshape.com/documents/2afcb365b9bb8bc758fb2883/w/e92b5f09b47443660b2821d7/e/299c9741af4ae04ed8fc9bc5))
 ### What is a Cycloidal Gearbox?
 
 A cycloidal gearbox is a high-precision, high-torque gear reduction mechanism that uses a cycloidal disk rolling inside a ring of pins. These gearboxes offer:
